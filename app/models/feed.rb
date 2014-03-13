@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: feeds
+#
+#  id         :integer          not null, primary key
+#  url        :string(255)      not null
+#  title      :string(255)      not null
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+require 'open-uri'
+
 class Feed < ActiveRecord::Base
 
   has_many :entries, :dependent => :destroy
@@ -36,4 +49,19 @@ class Feed < ActiveRecord::Base
       return false
     end
   end
+
+  def update_if_old
+    if self.entries.last
+      current_time = Time.now
+      last_feed_time = self.entries.last.created_at
+
+      #if current_time - last_feed_time > 100
+      if self.updated_at < 20.seconds.ago
+        self.reload
+      end
+    else
+      self.reload
+    end
+  end
+
 end

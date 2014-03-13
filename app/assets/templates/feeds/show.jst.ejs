@@ -1,0 +1,22 @@
+<h2><%= feed.escape("title") %></h2>
+
+<button id="refresh">Refresh</button>
+
+<ul>
+  <% entries.each(function(entry) { %>
+
+    <li>
+      <h2><a href='<%= entry.escape('link') %>'>
+        <%= entry.escape('title') %>
+      </a></h2>
+      <br>
+            Created at: <%= entry.escape('published_at') %>
+    </li>
+  <% }) %>
+</ul>
+
+
+
+
+
+
